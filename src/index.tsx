@@ -1,1 +1,3 @@
-export * as ImageEditor from './components/ImageEditor';
+import ImageEditor from './components/ImageEditor';
+
+export default ImageEditor;

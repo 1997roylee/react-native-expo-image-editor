@@ -35,7 +35,9 @@ interface ICropperContainerProps {
 
 const { width, height } = Dimensions.get('window');
 
-export default function ImageEditor(props: ICropperContainerProps) {
+export default function ImageEditor(
+  props: ICropperContainerProps
+): JSX.Element {
   const { source, onBack, onDone } = props;
   const [uri, setUri] = useState(source.uri);
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
