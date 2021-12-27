@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ImageEditor from '../../src/components/ImageEditor';
+import ImageEditor from 'react-native-expo-image-editor';
 
 const image = {
   uri: 'https://images.unsplash.com/photo-1640294692089-2821ca381dbd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
