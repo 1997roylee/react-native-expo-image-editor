@@ -28,6 +28,8 @@ enum Direction {
 interface ICropperProps {
   imageWidth: number;
   imageHeight: number;
+  originX: number;
+  originY: number;
   children: ReactElement<any, string | JSXElementConstructor<any>>;
 }
 
@@ -91,6 +93,7 @@ class Cropper extends React.Component<ICropperProps, ICropperState> {
     const { imageWidth, imageHeight } = this.props;
     this.boxWidth.setValue(imageWidth);
     this.boxHeight.setValue(imageHeight);
+
     this.pan.setOffset({ x: 0, y: 0 });
     this.setState({
       initialTop: 0,
@@ -102,7 +105,6 @@ class Cropper extends React.Component<ICropperProps, ICropperState> {
 
   private onPanResponderEnd() {
     const { initialTop, initialLeft } = this.state;
-    // if (initialLeft + this.pan.x._value) this.pan.setOffset({ x: 0 });
 
     this.setState({
       initialWidth: (this.boxWidth as any)._value,
@@ -121,6 +123,7 @@ class Cropper extends React.Component<ICropperProps, ICropperState> {
     const { dx: ndx, dy: ndy } = gestureState;
     const { direction, initialLeft, initialTop, initialWidth, initialHeight } =
       this.state;
+    const { originX } = this.props;
     let dx = 0;
     let dy = 0;
     let dw = 0;
@@ -187,7 +190,7 @@ class Cropper extends React.Component<ICropperProps, ICropperState> {
         dh = initialHeight;
     }
 
-    if (initialLeft + dx <= 0) dx = -initialLeft;
+    if (initialLeft + dx <= originX) dx = -initialLeft;
 
     if (initialTop + dy <= 0) dy = -initialTop;
 
@@ -291,19 +294,18 @@ class Cropper extends React.Component<ICropperProps, ICropperState> {
   }
 
   render() {
-    const { children, imageHeight, imageWidth } = this.props;
+    const { children, imageHeight, imageWidth, originX } = this.props;
     const getGirdAnimatedStyle = () => {
       return {
         width: this.boxWidth,
         height: this.boxHeight,
         zIndex: 100,
+        left: originX,
         transform: [
           {
             translateX: Animated.add(this.pan.x, this.state.initialLeft),
           },
-          {
-            translateY: Animated.add(this.pan.y, this.state.initialTop),
-          },
+          { translateY: Animated.add(this.pan.y, this.state.initialTop) },
         ],
       };
     };

@@ -49,7 +49,7 @@ export default function ImageEditor(
 
   useEffect(() => {
     (async () => {
-      const layout = await getImageLayout(uri, width, height);
+      const layout = await getImageLayout(uri, width, height - 240);
       setImageSize(layout);
     })();
   }, [uri]);

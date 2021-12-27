@@ -5,6 +5,7 @@ import {
   Dimensions,
   View,
   ImageBackground,
+  LayoutChangeEvent,
 } from 'react-native';
 import * as ImageManipulator from 'expo-image-manipulator';
 import FadeView from './FadeView';
@@ -36,31 +37,17 @@ const options = {
 export default function Manipulator(props: IManipulatorProps) {
   const { uri, onUpdate } = props;
   const [imageUri, setImageUri] = useState(uri);
-  // const { rotateVal, rotate } = useRotate();
   const cropperRef = useRef(null);
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
-  // const [displaySize, setDisplaySize] = useState({ width: 0, height: 0 });
+  const [originXY, setOriginXY] = useState({ x: 0, y: 0 });
   const {
     manipulator: { visible, setVisible },
   } = useProvider();
 
-  // const getAnimatedImageStyle = () => {
-  //   return {
-  //     transform: [
-  //       {
-  //         rotate: rotateVal.interpolate({
-  //           inputRange: [0, 1],
-  //           outputRange: ['0deg', '360deg'],
-  //         }),
-  //       },
-  //     ],
-  //   };
-  // };
-
   // shouldSetNewImageSize
   useEffect(() => {
     (async () => {
-      const resized = await getImageLayout(imageUri, width, height);
+      const resized = await getImageLayout(imageUri, width, height - 240);
       setImageSize(resized);
       resetCropper();
     })();
@@ -73,7 +60,8 @@ export default function Manipulator(props: IManipulatorProps) {
         await (cropperRef.current as any).getCroppedData(imageUri)
       );
       onUpdate(croppedImage);
-      resetCropper();
+      setImageUri(croppedImage.uri);
+      // resetCropper();
       setVisible(false);
     }
   };
@@ -91,6 +79,14 @@ export default function Manipulator(props: IManipulatorProps) {
     if (cropperRef && cropperRef.current) (cropperRef.current as any).reset();
   };
 
+  const onLayout = (event: LayoutChangeEvent) => {
+    const { width: layoutWidth, height: layoutHeight } =
+      event.nativeEvent.layout;
+    const x = (width - layoutWidth) / 2;
+    const y = (height - layoutHeight) / 2;
+    setOriginXY({ x, y });
+  };
+
   return (
     <FadeView visible={visible} style={styles.fadeView}>
       <SafeAreaView style={styles.container}>
@@ -104,26 +100,19 @@ export default function Manipulator(props: IManipulatorProps) {
               ref={cropperRef}
               imageWidth={imageSize.width}
               imageHeight={imageSize.height}
+              originX={originXY.x}
+              originY={originXY.y}
             >
-              <Animated.View
+              <AnimatedImageBackground
+                onLayout={onLayout}
+                source={{ uri: imageUri }}
                 style={[
                   {
                     width: imageSize.width,
                     height: imageSize.height,
                   },
                 ]}
-              >
-                <AnimatedImageBackground
-                  source={{ uri: imageUri }}
-                  // resizeMethod={'scale'}
-                  style={[
-                    {
-                      width: imageSize.width,
-                      height: imageSize.height,
-                    },
-                  ]}
-                />
-              </Animated.View>
+              />
             </Cropper>
           ) : null}
         </View>

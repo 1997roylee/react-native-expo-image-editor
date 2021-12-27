@@ -1,6 +1,6 @@
 // src/components/Controller.tsx
-import React, { cloneElement } from 'react';
-import { SafeAreaView } from 'react-native';
+import React from 'react';
+import { View, SafeAreaView } from 'react-native';
 import { useProvider } from './Provider';
 import Row from './Row';
 import Label from './Label';
@@ -28,7 +28,9 @@ export default function Controller(props: IControllerProps) {
         <Label onPress={onBack}>退出</Label>
         <Label onPress={handleCrop}>剪裁</Label>
       </Row>
-      {cloneElement(children, [], [])}
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        {children}
+      </View>
       <Row>
         <Label />
         <Label onPress={onDone}>完成</Label>
