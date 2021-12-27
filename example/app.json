@@ -1,22 +1,31 @@
 {
-  "name": "react-native-expo-image-editor-example",
-  "displayName": "ExpoImageEditor Example",
-  "expo": {
     "name": "react-native-expo-image-editor-example",
-    "slug": "react-native-expo-image-editor-example",
-    "description": "Example app for react-native-expo-image-editor",
-    "privacy": "public",
-    "version": "1.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "ios": {
-      "supportsTablet": true
+    "displayName": "ExpoImageEditor Example",
+    "expo": {
+        "name": "react-native-expo-image-editor-example",
+        "slug": "react-native-expo-image-editor-example",
+        "description": "Example app for react-native-expo-image-editor",
+        "privacy": "public",
+        "version": "1.0.0",
+        "platforms": ["ios", "android", "web"],
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.expo.react-native-expo-image-editor-example"
+        },
+        "assetBundlePatterns": ["**/*"],
+        "plugins": ["with-rn-image-crop-picker"],
+        "android": {
+            "package": "com.roylee1997.reactnativeexpoimageeditorexample"
+        }
     },
-    "assetBundlePatterns": [
-      "**/*"
+    "plugins": [
+        [
+            "with-rn-image-crop-picker",
+            {
+                "PhotoLibraryUsageDescription": "Allow app XYZ to access your photos",
+                "CameraUsageDescription": "Allow app XYZ to access your camera",
+                "MicrophoneUsageDescription": "Allow app XYZ to access your microphone"
+            }
+        ]
     ]
-  }
 }

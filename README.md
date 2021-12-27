@@ -11,7 +11,7 @@ npm install react-native-expo-image-editor
 ## Usage
 
 ```js
-import { multiply } from "react-native-expo-image-editor";
+import { multiply } from 'react-native-expo-image-editor';
 
 // ...
 
