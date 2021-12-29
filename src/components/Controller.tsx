@@ -5,6 +5,7 @@ import { useProvider } from './Provider';
 import Row from './Row';
 import Label from './Label';
 import styles from '../styles/Controller.style';
+import Button from './Button';
 
 interface IControllerProps {
   children: any;
@@ -33,7 +34,7 @@ export default function Controller(props: IControllerProps) {
       </View>
       <Row>
         <Label />
-        <Label onPress={onDone}>完成</Label>
+        <Button onPress={onDone}>完成</Button>
       </Row>
     </SafeAreaView>
   );

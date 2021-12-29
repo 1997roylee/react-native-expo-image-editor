@@ -4,7 +4,8 @@ import withStyle from '../plugins/withStyle';
 
 const styles = StyleSheet.create({
   row: {
-    // flex: 1,
+    // paddingVertical: 10,
+    paddingHorizontal: 10,
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
