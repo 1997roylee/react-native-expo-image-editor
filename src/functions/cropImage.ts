@@ -33,15 +33,16 @@ type CroppedImageType = {
   base64: string | undefined;
 };
 
-const options = {
-  compress: 1,
-  format: ImageManipulator.SaveFormat.PNG,
-  base64: false,
-};
+// const options = {
+//   compress: 1,
+//   format: ImageManipulator.SaveFormat.PNG,
+//   base64: false,
+// };
 
 export default function cropImage(
   uri: string,
-  bounding: any
+  bounding: any,
+  saveOptions: ImageManipulator.SaveOptions
 ): Promise<CroppedImageType> {
   return new Promise(async (resolve) => {
     const {
@@ -57,7 +58,7 @@ export default function cropImage(
         width: bounding.width,
         height: bounding.height,
       },
-      options
+      saveOptions
     );
     resolve({
       actualSize: {

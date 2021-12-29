@@ -7,7 +7,7 @@ import {
   ImageBackground,
   LayoutChangeEvent,
 } from 'react-native';
-import * as ImageManipulator from 'expo-image-manipulator';
+import { SaveFormat } from 'expo-image-manipulator';
 import FadeView from './FadeView';
 import Label from './Label';
 import { useProvider } from './Provider';
@@ -30,7 +30,7 @@ interface IManipulatorProps {
 
 const options = {
   compress: 1,
-  format: ImageManipulator.SaveFormat.PNG,
+  format: SaveFormat.JPEG,
   base64: false,
 };
 
@@ -41,6 +41,7 @@ export default function Manipulator(props: IManipulatorProps) {
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
   const [originXY, setOriginXY] = useState({ x: 0, y: 0 });
   const {
+    // saveOptions,
     manipulator: { visible, setVisible },
   } = useProvider();
 
@@ -57,11 +58,11 @@ export default function Manipulator(props: IManipulatorProps) {
     if (cropperRef && cropperRef.current) {
       const croppedImage = await cropImage(
         imageUri,
-        await (cropperRef.current as any).getCroppedData(imageUri)
+        await (cropperRef.current as any).getCroppedData(imageUri),
+        options
       );
       onUpdate(croppedImage);
       setImageUri(croppedImage.uri);
-      // resetCropper();
       setVisible(false);
     }
   };

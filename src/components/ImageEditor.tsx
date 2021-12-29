@@ -6,10 +6,11 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
+import { SaveOptions, manipulateAsync } from 'expo-image-manipulator';
 import Controller from './Controller';
 import Manipulator from './Manipulator';
 import { Provider } from './Provider';
-import { getImageLayout } from './utils';
+import { getImageLayout, getImageSize } from './utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,6 +32,7 @@ interface ICropperContainerProps {
   source: { uri: string };
   onBack: () => void;
   onDone: (newImage: any) => void;
+  saveOptions: SaveOptions;
 }
 
 const { width, height } = Dimensions.get('window');
@@ -38,13 +40,12 @@ const { width, height } = Dimensions.get('window');
 export default function ImageEditor(
   props: ICropperContainerProps
 ): JSX.Element {
-  const { source, onBack, onDone } = props;
+  const { source, onBack, onDone, saveOptions } = props;
   const [uri, setUri] = useState(source.uri);
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
 
   const handleUpdate = (croppedImage: any) => {
     setUri(croppedImage.uri);
-    // onDone(croppedImage);
   };
 
   useEffect(() => {
@@ -54,8 +55,19 @@ export default function ImageEditor(
     })();
   }, [uri]);
 
-  const handleDone = () => {
-    onDone(uri);
+  const handleDone = async () => {
+    onDone(await compressImage(uri));
+  };
+
+  const compressImage = async (imageUri: string) => {
+    const { width: imageWidth, height: imageHeight } = await getImageSize(
+      imageUri
+    );
+    return manipulateAsync(
+      imageUri,
+      [{ resize: { width: imageWidth, height: imageHeight } }],
+      saveOptions
+    );
   };
 
   return (
