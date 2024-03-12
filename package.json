@@ -1,6 +1,6 @@
 {
     "name": "react-native-expo-image-editor",
-    "version": "0.1.6",
+    "version": "1.0.1",
     "description": "react native",
     "main": "lib/commonjs/index",
     "module": "lib/module/index",
@@ -151,6 +151,7 @@
         "expo-image-manipulator": "^10.2.0",
         "expo-modules-core": "^0.6.3",
         "minti_fulkerson": "^1.0.0",
+        "react-native-expo-wheel-picker": "^0.1.8",
         "react-native-gesture-handler": "1.4.0",
         "react-native-reanimated": "^2.3.1",
         "react-native-safe-area-context": "^3.3.2",
